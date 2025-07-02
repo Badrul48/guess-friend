@@ -1,57 +1,37 @@
 <!DOCTYPE html>
-<html lang="th">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>ใครเอ่ย?</title>
+  <title>ใครคือคนนี้?</title>
   <style>
-    body { font-family: sans-serif; background: #f9f9f9; padding: 40px; display: flex; justify-content: center; }
-    .box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; width: 100%; }
-    input, button { padding: 10px; margin-top: 10px; width: 100%; }
-    #result { margin-top: 15px; font-weight: bold; }
+    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    .box { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; }
+    input[type=text] { width: 100%; padding: 10px; margin-top: 10px; }
+    button { padding: 10px 20px; margin-top: 10px; }
   </style>
 </head>
 <body>
   <div class="box">
-    <h2>ใครเอ่ย?</h2>
+    <h2>ใครคือคนนี้?</h2>
     <p>
       🌀 เวลาออกแบบ 3D เครื่องจะเสียงดังลั่นเหมือนจะบิน<br>
       📐 ทุกครั้งที่เริ่มโปรเจกต์จะถามว่า “ต้องมีสเกลไหม?”<br>
       🧠 มักพูดว่า “โปรเจกต์นี้เดี๋ยวทำแน่ ๆ” แต่ผ่านไป 3 สัปดาห์ก็ยังอยู่หน้าแรก<br>
-      📛 ชื่อเล่นมี 1 พยางค์ สั้น ๆ แต่ใคร ๆ ก็รู้จัก
+      📛 ชื่อเล่นมี 2 พยางค์ สั้น ๆ แต่ใคร ๆ ก็รู้จัก
     </p>
-    <input type="text" id="answer" placeholder="คุณคิดว่าเป็นใคร?">
-    <button onclick="submitAnswer()">ส่งคำตอบ</button>
+    <input type="text" id="answer" placeholder="พิมพ์ชื่อเล่น...">
+    <button onclick="checkAnswer()">ตอบเลย</button>
     <p id="result"></p>
   </div>
 
   <script>
-    function submitAnswer() {
-      const name = document.getElementById("name").value;
-      const answer = document.getElementById("answer").value;
+    function checkAnswer() {
+      const ans = document.getElementById("answer").value.trim().toLowerCase();
       const result = document.getElementById("result");
-
-      if (!name || !answer) {
-        result.textContent = "กรุณากรอกทั้งชื่อและคำตอบก่อนส่ง";
-        result.style.color = "red";
-        return;
+      if(ans === "บา") {
+        result.innerHTML = "✅ ถูกต้อง! นั่นคือ บา!";
+      } else {
+        result.innerHTML = "❌ ผิดนะ ลองอีกครั้ง!";
       }
-
-      fetch("https://script.google.com/macros/s/AKfycbwEQJWk5erq4WqPfJgGaUnmje1qjJl0aakfFP1lgoHKTpq3A1wVDpUelH-AMpT8u2AWxg/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `name=${encodeURIComponent(name)}&answer=${encodeURIComponent(answer)}`
-      })
-      .then(res => res.text())
-      .then(data => {
-        result.textContent = "✅ ส่งคำตอบเรียบร้อยแล้ว!";
-        result.style.color = "green";
-        document.getElementById("name").value = "";
-        document.getElementById("answer").value = "";
-      })
-      .catch(err => {
-        result.textContent = "❌ มีข้อผิดพลาดในการส่งข้อมูล";
-        result.style.color = "red";
-      });
     }
   </script>
 </body>
